@@ -1,8 +1,6 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const mongoose = require("mongoose");
-
 
 app.use(express.json());
 app.use(cors());
@@ -14,7 +12,6 @@ const productRoute = require('./routes/product.route');
 
 
 // ========================= CREATE ROUTE AND APPLY CRUD ============================
-// ========================= POST METHOD ============================
 
 // ============================= create instance ===========================
 // Mongoose middlewares for saving data: pre / post
@@ -39,8 +36,6 @@ productSchema.methods.logger = function () {
 }
 
 app.use("/api/v1/product/", productRoute);
-
-
 
 
 app.get("/", (_req, res) => {
