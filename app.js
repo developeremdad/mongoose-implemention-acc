@@ -86,6 +86,28 @@ timestamps: true,
 // _id: false
 })
 
+// ============================= create instance ===========================
+// Mongoose middlewares for saving data: pre / post
+// this process are work after execute this code. before saved. 
+// code : const product = new Product(req.body);
+productSchema.pre('save', function(next){
+  if (this.quantity === 0) {
+    this.status = "out-of-stock";
+  }
+  console.log("Before saving.");
+  next();
+});
+
+productSchema.post('save', function (doc, next) {
+  console.log("After saving.");
+  next();
+})
+
+// create custom method and use this route. 
+productSchema.methods.logger = function () {
+  console.log(`Data save ${this.name}`);
+}
+
 // ================================= MODEL ====================================
 // model name must be capital letter like.
 // model are accept 2 parameter. 1) model name, 2) schema name(jei schema ke model banabo.).
@@ -96,6 +118,7 @@ app.post('/api/v1/product', async (req, res, _next) =>{
   try {
     const product = new Product(req.body);
     const result = await product.save();
+    result.logger();
     res.status(200).json({
       success: true,
       message: "Data successfully inserted.",
