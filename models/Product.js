@@ -78,6 +78,32 @@ const productSchema = mongoose.Schema({
   timestamps: true,
   // _id: false
   })
+
+
+  
+// ============================= create instance ===========================
+// Mongoose middlewares for saving data: pre / post
+// this process are work after execute this code. before saved. 
+// code : const product = new Product(req.body);
+// productSchema.pre('save', function(next){
+//   if (this.quantity === 0) {
+//     this.status = "out-of-stock";
+//   }
+//   console.log("Before saving.");
+//   next();
+// });
+
+// productSchema.post('save', function (doc, next) {
+//   console.log("After saving.");
+//   next();
+// })
+
+// // create custom method and use this route. 
+// productSchema.methods.logger = function () {
+//   console.log(`Data save ${this.name}`);
+// }
+
+  
   
   // ================================= MODEL ====================================
   // model name must be capital letter like.

@@ -1,10 +1,9 @@
 const { getProductService, createProductService } = require('../services/product.services');
 
 
-module.createProduct = async (req, res, _next) => {
+module.exports.createProduct = async (req, res, _next) => {
     try {
         const result = createProductService(req.body);
-        result.logger();
         res.status(200).json({
             success: true,
             message: "Data successfully inserted.",
@@ -20,12 +19,11 @@ module.createProduct = async (req, res, _next) => {
 }
 
 // ========================= GET METHOD ============================
-module.getProducts = async (req, res, _next) => {
+module.exports.getProducts = async (req, res, _next) => {
     try {
-        console.log(req.url);
-        const products = getProductService;
+        const products = await getProductService();
         res.status(200).json({
-            status: success,
+            status: "success",
             data: products
         })
     } catch (error) {
