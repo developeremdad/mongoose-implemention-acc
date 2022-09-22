@@ -1,4 +1,4 @@
-const { getProductService, createProductService , getUpdateProductService, getBulkUpdateProductService} = require('../services/product.services');
+const { getProductService, createProductService , getUpdateProductService, getBulkUpdateProductService, getDeleteProductService} = require('../services/product.services');
 
 
 module.exports.createProduct = async (req, res, _next) => {
@@ -73,3 +73,27 @@ module.exports.bulkUpdateProduct = async (req, res, _next) =>{
     }
 }
 
+
+module.exports.deleteProduct = async (req, res, _next) =>{
+    const {id} = req.params;
+    try {
+        const result = await getDeleteProductService(id);
+        if (!result.deletedCount) {
+            return res.status(400).json({
+                status: "fail",
+                data: "Can't delete data.",
+                message: "Insert a valid id"
+            })
+        }
+        res.status(200).json({
+            status: "success",
+            data: result
+        })
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            data: "Can't delete data.",
+            message: error.message
+        })
+    }
+}

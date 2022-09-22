@@ -48,3 +48,12 @@ exports.getBulkUpdateProductService = async (data) => {
     console.log(result);
     return result;
 }
+
+
+exports.getDeleteProductService = async (productId) => {
+    const result = await Product.deleteOne({ _id: productId }, { runValidators: true })
+    // Or
+    // const product = await Product.findById(productId);
+    // const result = await product.set(data).save();
+    return result;
+}
