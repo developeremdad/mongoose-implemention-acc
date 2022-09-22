@@ -1,19 +1,50 @@
 
 const Product = require("../models/Product");
-exports.getProductService = async (limit) =>{
+exports.getProductService = async (limit) => {
     const products = await Product.find({}).limit(+limit);
     return products;
 }
 
-exports.createProductService = async (data) =>{
+exports.createProductService = async (data) => {
     const product = new Product(data);
-    const result =  await product.save();
+    const result = await product.save();
     return result;
 }
 
-exports.getUpdateProductService= async (productId, data) =>{
-    console.log(productId, data);
-    const product = await Product.findById(productId);
-    const result = await product.set(data).save();
+exports.getUpdateProductService = async (productId, data) => {
+    const result = await Product.updateOne({ _id: productId }, { $set: data }, { runValidators: true })
+    // Or
+    // const product = await Product.findById(productId);
+    // const result = await product.set(data).save();
+    return result;
+}
+
+// Bulk update receive formate. 
+// {
+//     "ids": [
+//       {
+//         "id": "63222246e6df9a0bd4bb84eb",
+//         "data": {
+//           "price": 130
+//         }
+//       },
+//       {
+//         "id": "63222270e6df9a0bd4bb84ed",
+//         "data": {
+//           "price": 120
+//         }
+//       }
+//     ]
+//   }
+
+exports.getBulkUpdateProductService = async (data) => {
+    // const result = await Product.updateMany({ _id: data.ids.id }, { $set: data.ids.data }, { runValidators: true })
+
+    let products = [];
+    data.ids.forEach(product => {
+        products.push(Product.updateOne({_id: product.id}, product.data));
+    });
+    const result = await Promise.all(products);
+    console.log(result);
     return result;
 }

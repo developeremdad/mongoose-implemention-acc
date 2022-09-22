@@ -5,11 +5,15 @@ const productController = require('../controllers/product.controller');
 console.log("product controller", productController);
 
 router
-  .route("/")
+    .route("/")
     .post(productController.createProduct)
     .get(productController.getProducts)
 
+router.route("/bulk-update")
+    .patch(productController.bulkUpdateProduct)
+
 router.route("/:id")
     .patch(productController.updateProduct)
+
 
 module.exports = router;
