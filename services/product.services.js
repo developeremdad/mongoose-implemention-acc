@@ -4,6 +4,10 @@ exports.getProductService = async (limit) => {
     const products = await Product.find({}).limit(+limit);
     return products;
 }
+exports.getSingleProductService = async () => {
+    const products = await Product.findOne({});
+    return products;
+}
 
 exports.createProductService = async (data) => {
     const product = new Product(data);
@@ -57,7 +61,16 @@ exports.getDeleteProductService = async (productId) => {
     // const result = await product.set(data).save();
     return result;
 }
+
+// Bulk delete input format 
+// {
+//     "ids": [
+//         "632c5028808d971f60e9f85e",
+//         "632c46cb3ff8b514e0692829"
+//     ]
+// }
+
 exports.getBulkDeleteProductService = async (ids) => {
-    const result = await Product.deleteMany({_id:ids.ids});
+    const result = await Product.deleteMany({ _id: ids.ids });
     return result;
 }

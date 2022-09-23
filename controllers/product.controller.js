@@ -1,4 +1,4 @@
-const { getProductService, createProductService , getUpdateProductService, getBulkUpdateProductService, getDeleteProductService, getBulkDeleteProductService} = require('../services/product.services');
+const { getProductService, getSingleProductService, createProductService , getUpdateProductService, getBulkUpdateProductService, getDeleteProductService, getBulkDeleteProductService} = require('../services/product.services');
 
 
 module.exports.createProduct = async (req, res, _next) => {
@@ -36,6 +36,26 @@ module.exports.getProducts = async (req, res, _next) => {
     }
 }
 
+// GET SINGLE PRODUCT 
+module.exports.getSingleProducts = async (req, res, _next) => {
+    try {
+        const product = await getSingleProductService();
+        res.status(200).json({
+            status: "success",
+            data: product
+        })
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            data: "Can't get data.",
+            message: error.message
+        })
+    }
+}
+
+
+
+// ========================= UPDATE METHOD ============================
 module.exports.updateProduct = async (req, res, _next) =>{
     const {id} = req.params;
     const data = req.body;
@@ -54,7 +74,7 @@ module.exports.updateProduct = async (req, res, _next) =>{
     }
 }
 
-
+// ========================= BULK-UPDATE METHOD ============================
 module.exports.bulkUpdateProduct = async (req, res, _next) =>{
     const data = req.body;
     // console.log(data.ids.data);
@@ -73,7 +93,7 @@ module.exports.bulkUpdateProduct = async (req, res, _next) =>{
     }
 }
 
-
+// ========================= DELETE METHOD ============================
 module.exports.deleteProduct = async (req, res, _next) =>{
     const {id} = req.params;
     try {
@@ -98,7 +118,7 @@ module.exports.deleteProduct = async (req, res, _next) =>{
     }
 }
 
-
+// ========================= BULK-DELETE METHOD ============================
 module.exports.bulkDeleteProduct = async (req, res, _next) =>{
     try {
         const result = await getBulkDeleteProductService(req.body);
