@@ -42,7 +42,7 @@ exports.getBulkUpdateProductService = async (data) => {
 
     let products = [];
     data.ids.forEach(product => {
-        products.push(Product.updateOne({_id: product.id}, product.data));
+        products.push(Product.updateOne({ _id: product.id }, product.data));
     });
     const result = await Promise.all(products);
     console.log(result);
@@ -55,5 +55,9 @@ exports.getDeleteProductService = async (productId) => {
     // Or
     // const product = await Product.findById(productId);
     // const result = await product.set(data).save();
+    return result;
+}
+exports.getBulkDeleteProductService = async (ids) => {
+    const result = await Product.deleteMany({_id:ids.ids});
     return result;
 }

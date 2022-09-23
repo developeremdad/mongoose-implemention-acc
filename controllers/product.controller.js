@@ -1,4 +1,4 @@
-const { getProductService, createProductService , getUpdateProductService, getBulkUpdateProductService, getDeleteProductService} = require('../services/product.services');
+const { getProductService, createProductService , getUpdateProductService, getBulkUpdateProductService, getDeleteProductService, getBulkDeleteProductService} = require('../services/product.services');
 
 
 module.exports.createProduct = async (req, res, _next) => {
@@ -57,7 +57,7 @@ module.exports.updateProduct = async (req, res, _next) =>{
 
 module.exports.bulkUpdateProduct = async (req, res, _next) =>{
     const data = req.body;
-    console.log(data.ids.data);
+    // console.log(data.ids.data);
     try {
         const result = await getBulkUpdateProductService(data);
         res.status(200).json({
@@ -97,3 +97,28 @@ module.exports.deleteProduct = async (req, res, _next) =>{
         })
     }
 }
+
+
+module.exports.bulkDeleteProduct = async (req, res, _next) =>{
+    try {
+        const result = await getBulkDeleteProductService(req.body);
+        if (! result.deletedCount) {
+            return res.status(400).json({
+                status: "fail",
+                data: "Couldn't deleted data.",
+                message: "Please insert valid Ids"
+            })
+        }
+        res.status(200).json({
+            status: "success",
+            data: result
+        })
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            data: "Couldn't delete data.",
+            message: error.message
+        })
+    }
+}
+

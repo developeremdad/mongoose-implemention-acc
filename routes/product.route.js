@@ -11,6 +11,8 @@ router
 
 router.route("/bulk-update")
     .patch(productController.bulkUpdateProduct)
+router.route("/bulk-delete")
+    .delete(productController.bulkDeleteProduct)
 
 router.route("/:id")
     .patch(productController.updateProduct)
